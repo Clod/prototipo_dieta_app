@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:prototipo_dieta/datos.dart';
+import 'package:prototipo_dieta/settings_page.dart';
 import 'package:prototipo_dieta/vertical_space.dart';
 
+import 'deails_page.dart';
 import 'diet_item_widget.dart';
 
 void main() {
@@ -16,24 +18,89 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  int? _indexGenero = null;
-  int? _indexEdad = null;
+  int? _indexGenero = 0;
+  int? _indexEdad = 0;
   int _index = 0;
   int _index2 = 0;
   int _index3 = 0;
   int? _indexExterno = null;
   int? indiceVegetalesVerdes = null;
 
+  List<DietItem> dietItemsList = [];
+
+  @override
+  initState() {
+    debugPrint("En initState");
+ //   dietItems();
+  }
+
   List<int?> indice = List.filled(15, null);
+
+  final GlobalKey<_MyAppState> _navBarKey = GlobalKey<_MyAppState>();
+
+  List<DietItem> dietItems() {
+    for (var i = 0; i < Items.values.length; i++) {
+      dietItemsList
+          .add(DietItem(callback: (item) => debugPrint("Callback invocado"), title: titulo[i], opciones: opciones[_indexGenero!][_indexEdad!][i]));
+    }
+    return dietItemsList;
+  }
 
   @override
   Widget build(BuildContext context) {
+    debugPrint("En build");
+    dietItemsList.clear();
+    // En main
     return CupertinoApp(
       home: CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(
-          middle: Text(
+          key: _navBarKey,
+          leading: Text(
             'Prototipo de Dieta App',
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+          ),
+          trailing: GestureDetector(
+            child: Icon(CupertinoIcons.bars),
+            onTap: () {
+              showCupertinoModalPopup(
+                context: _navBarKey.currentContext!,
+                builder: (BuildContext context) => CupertinoActionSheet(
+                  title: Text('Menu'),
+                  actions: [
+                    CupertinoActionSheetAction(
+                      child: Text('Details'),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                              builder: (context) => DetailsPage(
+                                    context: _navBarKey.currentContext!,
+                                  )),
+                        );
+                      },
+                    ),
+                    CupertinoActionSheetAction(
+                      child: Text('Settings'),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                              builder: (context) => SettingsPage(
+                                    context: _navBarKey.currentContext!,
+                                  )),
+                        );
+                      },
+                    ),
+                  ],
+                  cancelButton: CupertinoActionSheetAction(
+                    child: Text('Cancel'),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                ),
+              );
+            },
           ),
         ),
         child: SafeArea(
@@ -95,8 +162,9 @@ class _MyAppState extends State<MyApp> {
                   color: Color.fromRGBO(255, 255, 204, 1.0),
                   child: ListView(
                     children: [
+                      ...dietItems(),
                       VerticalSpace(altura: 15.0),
-                      /*****************************    Vegetales Verdes *****************************/
+ /*                     *//*****************************    Vegetales Verdes *****************************//*
                       DietItem(
                         callback: (uno) {
                           setState(() {
@@ -107,10 +175,10 @@ class _MyAppState extends State<MyApp> {
                         },
                         index: indice[Items.vegetales_verdes.index],
                         title: titulo[Items.vegetales_verdes.index],
-                        opciones:opciones[Genero.femenino.index][Edad.cinco_ocho.index][Items.vegetales_verdes.index],
+                        opciones: opciones[Genero.femenino.index][Edad.cinco_ocho.index][Items.vegetales_verdes.index],
                       ),
                       VerticalSpace(altura: 10),
-                      /*****************************    Vegetales Verdes *****************************/
+                      *//*****************************    Vegetales Verdes *****************************//*
                       DietItem(
                         callback: (uno) {
                           setState(() {
@@ -121,10 +189,10 @@ class _MyAppState extends State<MyApp> {
                         },
                         index: indice[Items.vegetales_rojos.index],
                         title: titulo[Items.vegetales_rojos.index],
-                        opciones:opciones[Genero.femenino.index][Edad.cinco_ocho.index][Items.vegetales_rojos.index],
+                        opciones: opciones[Genero.femenino.index][Edad.cinco_ocho.index][Items.vegetales_rojos.index],
                       ),
                       VerticalSpace(altura: 10),
-                      /*****************************    Legumbres  *****************************/
+                      *//*****************************    Legumbres  *****************************//*
                       DietItem(
                         callback: (uno) {
                           setState(() {
@@ -135,42 +203,10 @@ class _MyAppState extends State<MyApp> {
                         },
                         index: indice[Items.legumbres.index],
                         title: titulo[Items.legumbres.index],
-                        opciones:opciones[Genero.femenino.index][Edad.cinco_ocho.index][Items.legumbres.index],
+                        opciones: opciones[Genero.femenino.index][Edad.cinco_ocho.index][Items.legumbres.index],
                       ),
                       VerticalSpace(altura: 10),
-                      /*****************************    Legumbres  *****************************/
-                      DietItem(
-                        callback: (uno) {
-                          setState(() {
-                            _indexEdad = uno;
-                          });
-                          debugPrint(uno.toString());
-                          return;
-                        },
-                        index: _indexEdad,
-                        title: "Pastas y masas integrales: masa: pizza, tarta, empanada, canelon, masa de taco.",
-                        opciones: [
-                          "1/4 plato diario o 1 porción de masa diario",
-                          "1/2 plato diario o 2 porciones de masa diario",
-                          "> 1/2 plato diario o > 2 porciones de masa diario",
-                        ],
-                      ),
-                      DietItem(
-                        callback: (uno) {
-                          setState(() {
-                            _indexExterno = uno;
-                          });
-                          debugPrint(uno.toString());
-                          return;
-                        },
-                        index: _indexExterno,
-                        title: "Pastas y masas integrales: masa: pizza, tarta, empanada, canelon, masa de taco.",
-                        opciones: [
-                          "1/4 plato diario o 1 porción de masa diario",
-                          "1/2 plato diario o 2 porciones de masa diario",
-                          "> 1/2 plato diario o > 2 porciones de masa diario",
-                        ],
-                      ),
+     */                 /*****************************    Legumbres  *****************************/
                     ],
                   ),
                 ),
