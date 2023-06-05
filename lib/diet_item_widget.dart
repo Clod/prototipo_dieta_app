@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 
 class DietItem extends StatelessWidget {
-  final Function(int) callback;
-  int? index;
+  void Function(List<int?>,int) callback;
+  List<int?> index;
   String title;
   List<String> opciones;
 
-  DietItem({Key? key, required this.callback, this.index, required this.title, required this.opciones}) : super(key: key);
+  DietItem({Key? key, required this.callback, required this.index, required this.title, required this.opciones}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,10 +22,12 @@ class DietItem extends StatelessWidget {
               2: Padding(child: Text(opciones[2]), padding: EdgeInsets.all(8.0)),
             },
             padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
-            onValueChanged: callback,
-            groupValue: index,
+            onValueChanged: (value) {
+              callback(index, value);
+              debugPrint(value.toString());
+              } ,
+            groupValue: index[0],
           ),
-          //DietItem(),
         ],
       ),
     );

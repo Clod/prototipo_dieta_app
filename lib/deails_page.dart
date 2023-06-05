@@ -17,7 +17,7 @@ class DetailsPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('Welcome to the details page!'),
+            Text('Acá se podría poner info sobre alimentos'),
             SizedBox(height: 20),
             CupertinoButton(
               child: Text('Go Back'),

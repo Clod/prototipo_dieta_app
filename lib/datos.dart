@@ -245,12 +245,12 @@ List<List<List<List<String>>>> opciones = [
         '> 3 rodajas pan de molde al díao > 3 mignones chicos o > 9 galletitas de agua',
       ],
       [
-        '1/2 plato al día de pasta  o 2 porciónes de masa al día',
+        '1/2 plato al día de pasta  o 2 porciones de masa al día',
         '3/4 plato al día o 2 porciones de masa al día',
         '> 3/4 plato al día o > 2 porciones al día',
       ],
       [
-        '1/2 plato al día o 2 porciónes de masa al día',
+        '1/2 plato al día o 2 porciones de masa al día',
         '3/4 plato al día o 3 porciones de masa al día',
         '> 3/4 plato al día o > 3 porciones de masa al día',
       ],
