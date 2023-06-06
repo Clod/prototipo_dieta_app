@@ -27,10 +27,7 @@ class _MyAppState extends State<MyApp> {
   // This dirty trick is used to be able to pass ints by reference to the callback
   List<List<int?>> foodIndex = List.generate(Items.values.length, (_) => [null]);
 
-  @override
-  initState() {
-    debugPrint("En initState");
-  }
+  final ScrollController _controller = ScrollController();
 
   List<int?> indice = List.filled(15, null);
 
@@ -196,6 +193,11 @@ class _MyAppState extends State<MyApp> {
                             child: Icon(Icons.delete),
                             onPressed: () {
                               setState(() {
+                                _controller.animateTo(
+                                  0,
+                                  duration: Duration(milliseconds: 500),
+                                  curve: Curves.easeInOut,
+                                );
                                 foodIndex.forEach((element) => element[0] = null);
                               });
                             },
@@ -211,6 +213,7 @@ class _MyAppState extends State<MyApp> {
                 child: Container(
                   color: Colors.yellow[50],
                   child: ListView(
+                    controller: _controller,
                     children: [
                       ...dietItems(),
                       VerticalSpace(altura: 15.0),
